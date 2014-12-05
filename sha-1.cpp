@@ -13,7 +13,7 @@ void SHA1_PAD(const unsigned char *testStr,unsigned length);
 
 unsigned int FT(unsigned int B,unsigned int C,unsigned int D,int t)
 {
-	if(t<20)return (B&C)|((~B)&D);
+    if(t<20)return (B&C)|((~B)&D);
     if(t<40)return B^C^D;
     if(t<60)return (B&C)|(B&D)|(C&D);
     else return B^C^D;
@@ -46,9 +46,9 @@ int main(int argc, char* argv[])
 		
 		while(!feof(In))
 		{
-            fgets(string,size+1,In);
-            i++;
-        }
+            	     fgets(string,size+1,In);
+            	     i++;
+        	}
 	}
 	else
 	{
@@ -57,7 +57,6 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 	
-	printf("SHA-1 digest:");
 	SHA1((const unsigned char *) string, strlen(string));
 
 	return 0;
@@ -68,26 +67,26 @@ void SHA1_PAD(const unsigned char *testStr,unsigned length)
 	int index;
     
 	for(index=0;M_index*16+index<=length/4;index++)
-    {
+    	{
 		if(4*index<length)M[M_index][index]=testStr[4*index]<<24;
             
-        if(4*index+1<length)M[M_index][index]=M[M_index][index]| testStr[4*index+1]<<16;
+        	if(4*index+1<length)M[M_index][index]=M[M_index][index]| testStr[4*index+1]<<16;
             
-        if(4*index+2<length)M[M_index][index]=M[M_index][index]| testStr[4*index+2]<<8;
+        	if(4*index+2<length)M[M_index][index]=M[M_index][index]| testStr[4*index+2]<<8;
             
-        if(4*index+3<length)M[M_index][index]=M[M_index][index]| testStr[4*index+3];
+        	if(4*index+3<length)M[M_index][index]=M[M_index][index]| testStr[4*index+3];
             
             
-        if(index==16){index=0;M_index++;}
-    }
+        	if(index==16){index=0;M_index++;}
+    	}
 	
-    index--;
+    	index--;
     
-    M[M_index][index]=M[M_index][index]| ((0x80) << (3-length%4)*8);
+    	M[M_index][index]=M[M_index][index]| ((0x80) << (3-length%4)*8);
     
-    long long int bitlen= length*8;
+    	long long int bitlen= length*8;
   
-    if(index%16>=14)
+    	if(index%16>=14)
                M_index++;
    
 	M[M_index][14]= bitlen>>32;
@@ -96,7 +95,7 @@ void SHA1_PAD(const unsigned char *testStr,unsigned length)
 
 void SHA1_HASH()
 {
-	unsigned int H0=0x67452301;
+    unsigned int H0=0x67452301;
     unsigned int H1=0xEFCDAB89;
     unsigned int H2=0x98BADCFE;
     unsigned int H3=0x10325476;
@@ -111,7 +110,7 @@ void SHA1_HASH()
 	
     for(int i=0;i<=M_index;i++)
     {
-		for(int t=16;t<80;t++)
+	for(int t=16;t<80;t++)
             M[i][t]=ROTL(M[i][t-3]^M[i][t-8]^M[i][t-14]^M[i][t-16],1);
 			   
         A=H0;
@@ -122,7 +121,7 @@ void SHA1_HASH()
             
         for(int t=0;t<80;t++)
         {
-			unsigned int temp=(ROTL(A,5)+FT(B,C,D,t)+E+M[i][t]+K[t/20]);
+	    unsigned int temp=(ROTL(A,5)+FT(B,C,D,t)+E+M[i][t]+K[t/20]);
             E=D;
             D=C;
             C=ROTL(B,30);
@@ -137,7 +136,6 @@ void SHA1_HASH()
         H4+=E;
     }
     
-    cout <<setiosflags (ios_base::uppercase);
     cout << hex << H0<< H1<< H2 <<  H3<< H4 << endl;
 }
 
@@ -148,7 +146,7 @@ void SHA_INIT()
 			M[i][j]=0;
 }
 
-int SHA1( const unsigned char *testStr,unsigned length)
+int SHA1(const unsigned char *testStr,unsigned length)
 {
 	SHA_INIT();
 	SHA1_PAD(testStr,length);
